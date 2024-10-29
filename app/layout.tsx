@@ -1,7 +1,11 @@
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
-import "./globals.css";
+import AppProvider from "../components/layots/AppProvider";
 import Nav from "@/components/Nav";
+import { ToastContainer } from "react-toastify";
+import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -28,10 +32,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Nav />
-          <main className="flex flex-col gap-20 p-5 max-w-screen-xl mx-auto">
-            {children}
-          </main>
+          <AppProvider>{children}</AppProvider>
         </ThemeProvider>
+        <ToastContainer theme="dark" />
       </body>
     </html>
   );

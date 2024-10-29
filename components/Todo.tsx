@@ -1,5 +1,3 @@
-"use client";
-
 import { Note as NoteItem } from "@/types";
 import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
@@ -7,10 +5,11 @@ import { CgClose } from "react-icons/cg";
 
 type Props = {
   note: NoteItem;
-  deleteAction: (id: string) => void;
+  editAction: () => void;
+  deleteAction: () => void;
 };
 
-export default function Note({ note, deleteAction }: Props) {
+export default function Todo({ note, deleteAction, editAction }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="rounded" onClick={() => setIsOpen(!isOpen)}>
@@ -27,9 +26,16 @@ export default function Note({ note, deleteAction }: Props) {
         </div>
         <div>
           <div className="flex items-center justify-between  text-gray-100">
-            <p className="text-sm">March 28, 2020</p>
+            <p className="text-sm">
+              {new Date(note.created_at).toLocaleDateString("en", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
             <div className="flex gap-2">
               <button
+                onClick={editAction}
                 className="w-8 h-8 rounded-full  bg-gray-100 text-gray-800  flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-black"
                 aria-label="edit note"
                 role="button"
@@ -37,7 +43,7 @@ export default function Note({ note, deleteAction }: Props) {
                 <BiEdit />
               </button>
               <button
-                onClick={() => deleteAction(note.id)}
+                onClick={deleteAction}
                 className="w-8 h-8 rounded-full  bg-red-500 fill-white  flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-black"
                 aria-label="edit note"
                 role="button"
