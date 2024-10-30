@@ -26,12 +26,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
         <div className="mt-8 flex flex-col gap-2 [&>input]:mb-3">
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="you@example.com" required />
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link className="text-xs text-foreground underline" href="/forgot-password">
-              Forgot Password?
-            </Link>
-          </div>
+          <Label htmlFor="password">Password</Label>
           <Input type="password" name="password" placeholder="Your password" required />
           <SubmitButton formAction={signInAction}>Sign in</SubmitButton>
           <FormMessage message={searchParams} />

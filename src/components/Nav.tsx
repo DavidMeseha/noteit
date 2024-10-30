@@ -10,7 +10,7 @@ export default function Nav() {
         <Link href="/" className="flex items-center space-x-1 rtl:space-x-reverse">
           <PiPencil size={25} className="sm:hidden" />
           <PiPencil size={35} className="hidden sm:inline-block" />
-          <span className="self-center whitespace-nowrap text-xl font-semibold text-white">Note-it</span>
+          <span className="self-center whitespace-nowrap text-xl font-semibold text-white">TODO-IT</span>
         </Link>
         <AuthButton />
       </div>

@@ -3,18 +3,17 @@ import { ThemeProvider } from "next-themes";
 import AppProvider from "../components/layots/AppProvider";
 import Nav from "@/components/Nav";
 import { ToastContainer } from "react-toastify";
+import { Metadata } from "next";
 import "@/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Metadata } from "next";
-
-// const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata: Metadata = {
-  // metadataBase: new URL(defaultUrl),
   title: " TODO-IT",
   description: "A basic supabase and next.js sample with tanstack query",
-  icons: { icon: "/x" }
+  icons: {
+    icon: "/favicon.ico"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
