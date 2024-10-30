@@ -7,8 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Note as NoteItem } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Input } from "./ui/input";
+
 import {
   createTodo,
   deleteTodo,
@@ -16,7 +15,8 @@ import {
   updateTodo,
 } from "@/utils/supabase/notes.api";
 import TodoLoading from "./TodoLoading";
-import { SubmitButton } from "./SubmitButton";
+import TodoPopover from "./TodoPopover";
+import { queryClient } from "./layots/AppProvider";
 
 const supabase = createClient();
 
@@ -36,8 +36,8 @@ export default function TodosList() {
     queryKey: ["todos"],
     queryFn: () =>
       getTodos().then((data) => {
-        setTodos(data);
-        return data;
+        setTodos([...data]);
+        return [...data];
       }),
   });
 
@@ -48,7 +48,12 @@ export default function TodosList() {
     onSuccess: () => {
       toast.success("TODO deleted successfully");
     },
-    onError: (error: { message: string }) => setError(error.message),
+
+    onError: (error: { message: string }) => {
+      toast.error(error.message);
+      const reverTodos = queryClient.getQueryData<NoteItem[]>(["todos"]) ?? [];
+      setTodos([...reverTodos]);
+    },
   });
 
   const updateTodoMutation = useMutation({
@@ -58,9 +63,6 @@ export default function TodosList() {
       note: { title: string; body: string };
     }) => updateTodo(props.id, props.note),
 
-    onSuccess: () => {
-      toast.success("TODO updated successfully");
-    },
     onError: (error: { message: string }) => setError(error.message),
   });
 
@@ -75,10 +77,6 @@ export default function TodosList() {
     },
     onError: (error: { message: string }) => setError(error.message),
   });
-
-  const deleteTodoHandle = (id: number) => {
-    deleteTodoMutation.mutate(id);
-  };
 
   useEffect(() => {
     const channel = supabase
@@ -97,6 +95,8 @@ export default function TodosList() {
             const indexOfDeletedItem = todos.findIndex(
               (todo) => todo.id === payload.old.id
             );
+            console.log(indexOfDeletedItem);
+            if (indexOfDeletedItem < 0) return;
             const temp = [...todos];
             temp.splice(indexOfDeletedItem, 1);
             setTodos([...temp]);
@@ -117,6 +117,15 @@ export default function TodosList() {
     };
   }, [todos, setTodos]);
 
+  const deleteTodoHandle = (id: number) => {
+    const todosTemp = [...todos];
+    const indexToRemove = todosTemp.findIndex((todo) => todo.id === id);
+    todosTemp.splice(indexToRemove, 1);
+    setTodos([...todosTemp]);
+    deleteTodoMutation.mutate(id);
+  };
+
+  //create and update
   const handleDialogConfirm = (id?: number) => {
     if (!edit?.body || !edit.title)
       return setError("All Fields must be filled");
@@ -126,8 +135,19 @@ export default function TodosList() {
       title: edit.title,
     };
 
-    if (id) return updateTodoMutation.mutate({ id, note });
+    if (id) {
+      const updateIndex = todos.findIndex((todo) => todo.id === id);
+      const todosTemp = [...todos];
+      todosTemp[updateIndex] = { ...todosTemp[updateIndex], ...note };
+      return updateTodoMutation.mutate({ id, note });
+    }
+
     createTodoMutation.mutate(note);
+  };
+
+  const handlePopoverFormChange = (name: string, value: string) => {
+    if (!edit) return;
+    setEdit({ ...edit, [name]: value });
   };
 
   return (
@@ -152,57 +172,32 @@ export default function TodosList() {
             />
           ))
         )}
+        {createTodoMutation.isPending ? (
+          <Todo
+            todo={{
+              body: createTodoMutation.variables?.body ?? "",
+              created_at: new Date().toLocaleDateString(),
+              title: createTodoMutation.variables?.title ?? "",
+              id: 0,
+            }}
+            deleteAction={() => toast.error("try again in few seconds")}
+            editAction={() => toast.error("try again in few seconds")}
+          />
+        ) : null}
       </div>
-      <Dialog
-        open={!!edit}
+      <TodoPopover
+        isOpen={!!edit}
         onOpenChange={() => {
           setEdit(null);
         }}
-      >
-        <DialogContent className="border bg-popover text-popover-foreground">
-          <DialogHeader>
-            <DialogTitle className="mb-4">
-              {edit ? "Edit Note" : "New Note"}
-            </DialogTitle>
-            <div>
-              <Input
-                className="mb-4"
-                placeholder="Title"
-                value={edit?.title ?? ""}
-                onChange={(e) =>
-                  edit
-                    ? setEdit({ ...edit, title: e.target.value })
-                    : setEdit(null)
-                }
-              />
-              <textarea
-                className="mb-2 w-full bg-background border rounded-md p-4 placeholder:text-muted-foreground"
-                rows={6}
-                maxLength={200}
-                placeholder="Body Text"
-                value={edit?.body ?? ""}
-                onChange={(e) =>
-                  edit
-                    ? setEdit({ ...edit, body: e.target.value })
-                    : setEdit(null)
-                }
-              ></textarea>
-              <div className="h-8 text-danger text-sm">{error}</div>
-              <div className="float-end">
-                <SubmitButton
-                  isLoading={
-                    createTodoMutation.isPending || updateTodoMutation.isPending
-                  }
-                  className="relative"
-                  onClick={() => handleDialogConfirm(edit?.id)}
-                >
-                  {edit?.id ? "Update Todo" : "Add Todo"}
-                </SubmitButton>
-              </div>
-            </div>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+        isPending={createTodoMutation.isPending || updateTodoMutation.isPending}
+        handleConfirm={() => handleDialogConfirm(edit?.id)}
+        onChange={(e) =>
+          handlePopoverFormChange(e.currentTarget.name, e.currentTarget.value)
+        }
+        state={edit}
+        error={error}
+      />
     </>
   );
 }
