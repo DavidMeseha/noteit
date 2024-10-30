@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import NotesList from "@/components/NotesList";
+import TodosList from "@/components/TodosList";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -13,5 +13,5 @@ export default async function ProtectedPage() {
     return redirect("/sign-in");
   }
 
-  return <NotesList />;
+  return <TodosList />;
 }

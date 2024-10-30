@@ -3,7 +3,7 @@ import { ThemeProvider } from "next-themes";
 import AppProvider from "../components/layots/AppProvider";
 import Nav from "@/components/Nav";
 import { ToastContainer } from "react-toastify";
-import "./globals.css";
+import "@/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 

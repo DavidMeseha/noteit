@@ -1,6 +1,6 @@
-import { signInAction, signInWithGithub } from "@/app/actions";
+import { signInAction, signInWithGithub } from "@/actions";
 import { FormMessage, Message } from "@/components/form-message";
-import { SubmitButton } from "@/components/submit-button";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +9,7 @@ import Link from "next/link";
 export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full p-6 bg-card mt-8 rounded border">
       <form className="flex flex-col w-full mx-auto">
         <h1 className="text-2xl font-medium">Sign in</h1>
         <p className="text-sm text-foreground">
@@ -39,9 +39,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
             placeholder="Your password"
             required
           />
-          <SubmitButton pendingText="Signing In..." formAction={signInAction}>
-            Sign in
-          </SubmitButton>
+          <SubmitButton formAction={signInAction}>Sign in</SubmitButton>
           <FormMessage message={searchParams} />
         </div>
       </form>
