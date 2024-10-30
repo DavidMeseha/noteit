@@ -6,13 +6,15 @@ import { ToastContainer } from "react-toastify";
 import "@/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Metadata } from "next";
 
 // const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
-export const metadata = {
+export const metadata: Metadata = {
   // metadataBase: new URL(defaultUrl),
   title: " TODO-IT",
-  description: "A basic supabase and next.js sample with tanstack query"
+  description: "A basic supabase and next.js sample with tanstack query",
+  icons: { icon: "/x" }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
