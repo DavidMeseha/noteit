@@ -22,6 +22,7 @@ export default function TodoPopover({ isPending, isOpen, onOpenChange, handleCon
           <DialogTitle className="mb-4">{state ? "Edit Note" : "New Note"}</DialogTitle>
           <div>
             <Input
+              maxLength={50}
               type="text"
               name="title"
               className="mb-4"
@@ -32,7 +33,7 @@ export default function TodoPopover({ isPending, isOpen, onOpenChange, handleCon
             <textarea
               className="placeholder:text-muted-foreground mb-2 w-full rounded-md border bg-background p-4"
               rows={6}
-              maxLength={200}
+              maxLength={350}
               placeholder="Body Text"
               value={state?.body ?? ""}
               name="body"

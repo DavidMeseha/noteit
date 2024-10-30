@@ -13,12 +13,12 @@ export default function Todo({ todo, deleteAction, editAction }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      className={`w-full ${isOpen ? "min-h-64" : "min-h-28 sm:h-64 sm:min-h-64"} flex flex-col justify-between rounded-lg border bg-card px-4 py-5 transition-all`}
+      className={`w-full ${isOpen ? "min-h-80" : "min-h-28 sm:h-80 sm:min-h-80"} flex flex-col justify-between rounded-lg border bg-card px-4 py-5 transition-all cursor-pointer sm:cursor-default`}
     >
       <div onClick={() => setIsOpen(!isOpen)}>
-        <h4 className="mb-3 font-bold text-foreground">{todo.title}</h4>
+        <h4 className="mb-3 font-bold text-foreground break-words text-wrap overflow-clip">{todo.title}</h4>
         <p
-          className={`text-sm text-card-foreground transition-opacity ${isOpen ? "opacity-100" : "h-0 opacity-0 sm:h-auto sm:opacity-100"}`}
+          className={`text-sm text-card-foreground transition-opacity ${isOpen ? "opacity-100" : "h-0 opacity-0 sm:h-auto sm:opacity-100"} break-words overflow-clip`}
         >
           {todo.body}
         </p>
