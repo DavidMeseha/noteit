@@ -41,7 +41,12 @@ export default function TodoPopover({ isPending, isOpen, onOpenChange, handleCon
             ></textarea>
             <div className="h-8 text-sm text-danger">{error}</div>
             <div className="float-end">
-              <SubmitButton isLoading={isPending} className="relative" onClick={handleConfirm}>
+              <SubmitButton
+                isLoading={isPending}
+                className="relative"
+                onClick={handleConfirm}
+                aria-label="Supmit Edit Form"
+              >
                 {state?.id ? "Update Todo" : "Add Todo"}
               </SubmitButton>
             </div>
