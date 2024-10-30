@@ -7,10 +7,10 @@ import "@/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+// const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
+  // metadataBase: new URL(defaultUrl),
   title: " TODO-IT",
   description: "A basic supabase and next.js sample with tanstack query"
 };
