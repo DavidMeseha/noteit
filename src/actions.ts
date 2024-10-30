@@ -19,8 +19,8 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-    },
+      emailRedirectTo: `${origin}/auth/callback`
+    }
   });
 
   if (error) {
@@ -42,7 +42,7 @@ export const signInAction = async (formData: FormData) => {
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
-    password,
+    password
   });
 
   if (error) {
@@ -58,8 +58,8 @@ export const signInWithGithub = async () => {
   const { error, data } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: `${origin}/auth/callback`,
-    },
+      redirectTo: `${origin}/auth/callback`
+    }
   });
 
   if (data.url) {

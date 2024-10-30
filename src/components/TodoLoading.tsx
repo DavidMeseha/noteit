@@ -6,17 +6,17 @@ export default function TodoLoading() {
   return (
     <SkeletonTheme baseColor="#131b26" highlightColor="#192331">
       <div className="rounded">
-        <div className="w-full min-h-28 sm:min-h-64 sm:h-64 flex flex-col justify-between bg-gray-800 border-gray-700 rounded-lg border py-5 px-4 transition-all">
+        <div className="flex min-h-28 w-full flex-col justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-5 transition-all sm:h-64 sm:min-h-64">
           <div>
             <h4 className="mb-3">
               <Skeleton />
             </h4>
-            <p className="text-gray-100 text-sm transition-opacity opacity-0 h-0 sm:opacity-100 sm:h-auto">
+            <p className="h-0 text-sm text-gray-100 opacity-0 transition-opacity sm:h-auto sm:opacity-100">
               <Skeleton count={4} />
             </p>
           </div>
           <div>
-            <div className="flex items-center justify-between  text-gray-100">
+            <div className="flex items-center justify-between text-gray-100">
               <p className="text-sm">
                 <Skeleton width={100} />
               </p>

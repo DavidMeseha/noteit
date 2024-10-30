@@ -11,19 +11,13 @@ export async function getTodos(): Promise<Note[]> {
 
 export async function deleteTodo(id: number) {
   const supabase = createClient();
-  const { error, data } = await supabase
-    .from("notes")
-    .delete({ count: "exact" })
-    .eq("id", id);
+  const { error, data } = await supabase.from("notes").delete({ count: "exact" }).eq("id", id);
 
   if (error) throw new Error(error.message);
   return data;
 }
 
-export async function updateTodo(
-  id: number,
-  note: { title: string; body: string }
-) {
+export async function updateTodo(id: number, note: { title: string; body: string }) {
   const supabase = createClient();
   const { error, data } = await supabase
     .from("notes")

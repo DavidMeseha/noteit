@@ -8,12 +8,7 @@ import { Note as NoteItem } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-import {
-  createTodo,
-  deleteTodo,
-  getTodos,
-  updateTodo,
-} from "@/utils/supabase/notes.api";
+import { createTodo, deleteTodo, getTodos, updateTodo } from "@/utils/supabase/notes.api";
 import TodoLoading from "./TodoLoading";
 import TodoPopover from "./TodoPopover";
 import { queryClient } from "./layots/AppProvider";
@@ -24,7 +19,7 @@ const newNoteItem = {
   id: 0,
   body: "",
   title: "",
-  created_at: "",
+  created_at: ""
 };
 
 export default function TodosList() {
@@ -38,7 +33,7 @@ export default function TodosList() {
       getTodos().then((data) => {
         setTodos([...data]);
         return [...data];
-      }),
+      })
   });
 
   const deleteTodoMutation = useMutation({
@@ -53,29 +48,26 @@ export default function TodosList() {
       toast.error(error.message);
       const reverTodos = queryClient.getQueryData<NoteItem[]>(["todos"]) ?? [];
       setTodos([...reverTodos]);
-    },
+    }
   });
 
   const updateTodoMutation = useMutation({
     mutationKey: ["updateTodo"],
-    mutationFn: async (props: {
-      id: number;
-      note: { title: string; body: string };
-    }) => updateTodo(props.id, props.note),
+    mutationFn: async (props: { id: number; note: { title: string; body: string } }) =>
+      updateTodo(props.id, props.note),
 
-    onError: (error: { message: string }) => setError(error.message),
+    onError: (error: { message: string }) => setError(error.message)
   });
 
   const createTodoMutation = useMutation({
     mutationKey: ["createNote"],
-    mutationFn: async (note: { title: string; body: string }) =>
-      createTodo(note),
+    mutationFn: async (note: { title: string; body: string }) => createTodo(note),
 
     onSuccess: () => {
       toast.success("TODO created successfully");
       setEdit(null);
     },
-    onError: (error: { message: string }) => setError(error.message),
+    onError: (error: { message: string }) => setError(error.message)
   });
 
   useEffect(() => {
@@ -86,24 +78,20 @@ export default function TodosList() {
         {
           event: "*",
           schema: "public",
-          table: "notes",
+          table: "notes"
         },
         (payload) => {
           if (payload.eventType === "INSERT") {
             setTodos([...todos, payload.new as NoteItem]);
           } else if (payload.eventType === "DELETE") {
-            const indexOfDeletedItem = todos.findIndex(
-              (todo) => todo.id === payload.old.id
-            );
+            const indexOfDeletedItem = todos.findIndex((todo) => todo.id === payload.old.id);
             console.log(indexOfDeletedItem);
             if (indexOfDeletedItem < 0) return;
             const temp = [...todos];
             temp.splice(indexOfDeletedItem, 1);
             setTodos([...temp]);
           } else if (payload.eventType === "UPDATE") {
-            const indexOfDeletedItem = todos.findIndex(
-              (todo) => todo.id === payload.old.id
-            );
+            const indexOfDeletedItem = todos.findIndex((todo) => todo.id === payload.old.id);
             const temp = [...todos];
             temp[indexOfDeletedItem] = payload.new as NoteItem;
             setTodos([...temp]);
@@ -127,12 +115,11 @@ export default function TodosList() {
 
   //create and update
   const handleDialogConfirm = (id?: number) => {
-    if (!edit?.body || !edit.title)
-      return setError("All Fields must be filled");
+    if (!edit?.body || !edit.title) return setError("All Fields must be filled");
 
     let note = {
       body: edit.body,
-      title: edit.title,
+      title: edit.title
     };
 
     if (id) {
@@ -152,7 +139,7 @@ export default function TodosList() {
 
   return (
     <>
-      <div className="grid sm:grid-cols-[1fr_1fr] grid-cols-[1fr] lg:grid-cols-[1fr_1fr_1fr] gap-6">
+      <div className="grid grid-cols-[1fr] gap-6 sm:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_1fr_1fr]">
         <AddNoteButton onClick={() => setEdit(newNoteItem)} />
         {todosQuery.isFetching ? (
           <>
@@ -178,7 +165,7 @@ export default function TodosList() {
               body: createTodoMutation.variables?.body ?? "",
               created_at: new Date().toLocaleDateString(),
               title: createTodoMutation.variables?.title ?? "",
-              id: 0,
+              id: 0
             }}
             deleteAction={() => toast.error("try again in few seconds")}
             editAction={() => toast.error("try again in few seconds")}
@@ -192,9 +179,7 @@ export default function TodosList() {
         }}
         isPending={createTodoMutation.isPending || updateTodoMutation.isPending}
         handleConfirm={() => handleDialogConfirm(edit?.id)}
-        onChange={(e) =>
-          handlePopoverFormChange(e.currentTarget.name, e.currentTarget.value)
-        }
+        onChange={(e) => handlePopoverFormChange(e.currentTarget.name, e.currentTarget.value)}
         state={edit}
         error={error}
       />

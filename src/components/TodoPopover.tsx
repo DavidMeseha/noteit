@@ -9,29 +9,17 @@ type Props = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   handleConfirm: () => void;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   state: Note | null | undefined;
   error: false | string;
 };
 
-export default function TodoPopover({
-  isPending,
-  isOpen,
-  onOpenChange,
-  handleConfirm,
-  onChange,
-  state,
-  error,
-}: Props) {
+export default function TodoPopover({ isPending, isOpen, onOpenChange, handleConfirm, onChange, state, error }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="border bg-popover text-popover-foreground">
         <DialogHeader>
-          <DialogTitle className="mb-4">
-            {state ? "Edit Note" : "New Note"}
-          </DialogTitle>
+          <DialogTitle className="mb-4">{state ? "Edit Note" : "New Note"}</DialogTitle>
           <div>
             <Input
               type="text"
@@ -42,7 +30,7 @@ export default function TodoPopover({
               onChange={onChange}
             />
             <textarea
-              className="mb-2 w-full bg-background border rounded-md p-4 placeholder:text-muted-foreground"
+              className="placeholder:text-muted-foreground mb-2 w-full rounded-md border bg-background p-4"
               rows={6}
               maxLength={200}
               placeholder="Body Text"
@@ -50,13 +38,9 @@ export default function TodoPopover({
               name="body"
               onChange={onChange}
             ></textarea>
-            <div className="h-8 text-danger text-sm">{error}</div>
+            <div className="h-8 text-sm text-danger">{error}</div>
             <div className="float-end">
-              <SubmitButton
-                isLoading={isPending}
-                className="relative"
-                onClick={handleConfirm}
-              >
+              <SubmitButton isLoading={isPending} className="relative" onClick={handleConfirm}>
                 {state?.id ? "Update Todo" : "Add Todo"}
               </SubmitButton>
             </div>

@@ -4,16 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
-export default function AppProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <main className="flex flex-col gap-20 p-5 max-w-screen-xl mx-auto">
-        {children}
-      </main>
+      <main className="mx-auto flex max-w-screen-xl flex-col gap-20 p-5">{children}</main>
     </QueryClientProvider>
   );
 }
