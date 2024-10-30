@@ -6,6 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
+export const metadata = {
+  title: " TODO-IT | Sign-in",
+  description: "A basic supabase and next.js sample with tanstack query"
+};
+
 export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   return (

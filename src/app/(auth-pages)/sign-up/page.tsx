@@ -5,6 +5,11 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "@/components/SubmitButton";
 
+export const metadata = {
+  title: " TODO-IT | Sign-up",
+  description: "A basic supabase and next.js sample with tanstack query"
+};
+
 export default async function Signup(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   if ("message" in searchParams) {
@@ -29,7 +34,7 @@ export default async function Signup(props: { searchParams: Promise<Message> }) 
         <Input name="email" placeholder="you@example.com" required />
         <Label htmlFor="password">Password</Label>
         <Input type="password" name="password" placeholder="Your password" minLength={6} required />
-        <SubmitButton formAction={signUpAction} pendingText="Signing up...">
+        <SubmitButton formAction={signUpAction}>
           Sign up
         </SubmitButton>
         <FormMessage message={searchParams} />

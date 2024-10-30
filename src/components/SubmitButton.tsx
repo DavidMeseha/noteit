@@ -10,7 +10,7 @@ type Props = ComponentProps<typeof Button> & {
   isLoading?: boolean;
 };
 
-export function SubmitButton({ children, isLoading, pendingText = "Submitting...", ...props }: Props) {
+export function SubmitButton({ children, isLoading, ...props }: Props) {
   const { pending } = useFormStatus();
 
   return (
