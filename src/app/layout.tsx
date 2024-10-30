@@ -1,5 +1,4 @@
 import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
 import AppProvider from "../components/layots/AppProvider";
 import Nav from "@/components/Nav";
 import { ToastContainer } from "react-toastify";
@@ -20,11 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Nav />
-          <AppProvider>{children}</AppProvider>
-        </ThemeProvider>
-        <ToastContainer theme="dark" />
+        <Nav />
+        <AppProvider>{children}</AppProvider>
+        <ToastContainer toastStyle={{ backgroundColor: "#131b26" }} />
       </body>
     </html>
   );

@@ -55,7 +55,10 @@ export default function TodosList() {
     mutationKey: ["updateTodo"],
     mutationFn: async (props: { id: number; note: { title: string; body: string } }) =>
       updateTodo(props.id, props.note),
-
+    onSuccess: () => {
+      toast.success("TODO updated successfully");
+      setEdit(null);
+    },
     onError: (error: { message: string }) => setError(error.message)
   });
 
