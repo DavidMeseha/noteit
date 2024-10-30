@@ -3,7 +3,7 @@ import { createClient } from "./client";
 
 export async function getTodos(): Promise<Note[]> {
   const supabase = createClient();
-  const { data, error } = await supabase.from("notes").select("*");
+  const { data, error } = await supabase.from("notes").select("*").returns<Note[]>();
 
   if (error) throw new Error(error.message);
   return data;
@@ -28,9 +28,9 @@ export async function updateTodo(id: number, note: { title: string; body: string
   return data;
 }
 
-export async function createTodo(note: { title: string; body: string }) {
+export async function createTodo(note: { title: string; body: string }):Promise<Note> {
   const supabase = createClient();
-  const { error, data } = await supabase.from("notes").insert({ ...note });
+  const { error, data } = await supabase.from("notes").insert({ ...note }).returns<Note>();
 
   if (error) throw new Error(error.message);
   return data;
