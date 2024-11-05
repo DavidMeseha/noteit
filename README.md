@@ -3,9 +3,12 @@
 ## Technologies Used
 
 **Supabase**: For backend services and real-time database capabilities.
+
 **Next.js**: For server-side rendering and routing.
+
 **TanStack Query**: For data fetching, caching, and state management.
-**React.js**: For building the user interface.
+
+**React.js**: For building the user interface
 
 ## Key Features
 
