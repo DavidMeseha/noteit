@@ -1,5 +1,7 @@
 # Simple Todo Application
 
+[**live Demo**](https://noteit-psi.vercel.app)
+
 ## Technologies Used
 
 **Supabase**: For backend services and real-time database capabilities.
